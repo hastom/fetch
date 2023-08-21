@@ -118,7 +118,9 @@ function transformOptions(input: RequestInfo | URL, init: ExtendedRequestInit = 
 
   if (params) {
     const paramsString = stringifyParams(params)
-    url.search += '&' + paramsString
+    if (paramsString) {
+      url.search += '&' + paramsString
+    }
   }
 
   options.headers = normilizedHeaders
