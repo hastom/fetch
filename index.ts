@@ -24,13 +24,6 @@ function combineURLs(baseURL: string, relativeURL: string) {
     : baseURL
 }
 
-function buildFullPath(baseURL: string, requestedURL: string) {
-  if (baseURL && !isAbsoluteURL(requestedURL)) {
-    return combineURLs(baseURL, requestedURL)
-  }
-  return requestedURL
-}
-
 function mergeDeep(target: Record<string, unknown>, source?: Record<string, unknown>) {
 
   if (!source) {
@@ -77,9 +70,9 @@ function convertInputToURL(input: RequestInfo | URL, init: ExtendedRequestInit =
     } else {
       if (init.baseURL) {
         if (isAbsoluteURL(init.baseURL)) {
-          return new URL(input, init.baseURL)
+          return new URL(combineURLs(init.baseURL, input))
         } else if (typeof location !== 'undefined') {
-          return new URL(buildFullPath(init.baseURL, input), location.href)
+          return new URL(combineURLs(init.baseURL, input), location.origin)
         } else {
           throw new Error(
             `Failed to build URL: base url is relative (${init.baseURL}) and browser location is unavailable`,
@@ -87,7 +80,7 @@ function convertInputToURL(input: RequestInfo | URL, init: ExtendedRequestInit =
         }
       } else {
         if (typeof location !== 'undefined') {
-          return new URL(input, location.href)
+          return new URL(input, location.origin)
         } else {
           throw new Error('Failed to build URL: base url is not set and browser location is unavailable')
         }
