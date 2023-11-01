@@ -60,7 +60,7 @@ export function stringifyParams(params: Record<string, unknown>, prefix = '') {
         : encodeURIComponent(key) + '=' + encodeURIComponent(value as string))
     }
   }
-  return str.join('&')
+  return str.filter((p) => !!p).join('&')
 }
 
 function convertInputToURL(input: RequestInfo | URL, init: ExtendedRequestInit = {}): URL {

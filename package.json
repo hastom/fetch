@@ -1,6 +1,6 @@
 {
   "name": "@hastom/fetch",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Light wrapper around Fetch API",
   "private": false,
   "main": "dist/index.js",
