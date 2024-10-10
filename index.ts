@@ -4,6 +4,16 @@ export type ExtendedRequestInit = Omit<RequestInit, 'body'> & {
   baseURL?: string,
 }
 
+export type Fetch = (input: RequestInfo | URL, init?: ExtendedRequestInit) => Promise<Response>
+
+export type Fetcher = Fetch & {
+  get: Fetch,
+  post: Fetch,
+  put: Fetch,
+  patch: Fetch,
+  delete: Fetch,
+}
+
 function isAnyObject(a: unknown): a is Record<string, unknown> {
   return typeof a === 'object'
 }
@@ -126,7 +136,7 @@ function request(input: RequestInfo | URL, init?: ExtendedRequestInit): Promise<
   return fetch(url, options)
 }
 
-export function createFetchInstance(defaultInit: ExtendedRequestInit = {}) {
+export function createFetchInstance(defaultInit: ExtendedRequestInit = {}): Fetcher {
   function extendedFetchInstance(input: RequestInfo | URL, init?: ExtendedRequestInit) {
     return request(input, mergeDeep({ ...defaultInit }, { ...init }))
   }
