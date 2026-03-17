@@ -1,6 +1,6 @@
 module.exports = {
   parserOptions: {
-    project: './tsconfig.json',
+    project: ['./tsconfig.json', './tsconfig.test.json'],
     requireConfigFile: false,
   },
   extends: [
