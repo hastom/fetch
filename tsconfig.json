@@ -17,10 +17,12 @@
     "resolveJsonModule": true,
     "outDir": "dist",
     "baseUrl": ".",
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "skipLibCheck": true
   },
   "exclude": [
     "node_modules",
-    "dist"
+    "dist",
+    "**/*.test.ts"
   ]
 }

@@ -2,6 +2,7 @@ export type ExtendedRequestInit = Omit<RequestInit, 'body'> & {
   body?: RequestInit['body'] | Record<string, unknown>,
   params?: Record<string, unknown>,
   baseURL?: string,
+  trimTrailingSlash?: boolean,
 }
 
 export type Fetch = (input: RequestInfo | URL, init?: ExtendedRequestInit) => Promise<Response>
@@ -105,8 +106,12 @@ function convertInputToURL(input: RequestInfo | URL, init: ExtendedRequestInit =
 
 function transformOptions(input: RequestInfo | URL, init: ExtendedRequestInit = {}) {
 
-  const { body, headers, params, baseURL, ...rest } = init
+  const { body, headers, params, baseURL, trimTrailingSlash, ...rest } = init
   const url = convertInputToURL(input, init)
+
+  if (trimTrailingSlash) {
+    url.pathname = url.pathname.replace(/\/+$/, '') || '/'
+  }
   const normilizedHeaders = headers instanceof Headers ? headers : new Headers(headers)
   const options: RequestInit = rest
 
